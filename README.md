@@ -1,6 +1,6 @@
 # kanjikana
 
-Kanji to kana or romaji
+Japanese Kanji to kana or romaji
 
 ## Usage
 
