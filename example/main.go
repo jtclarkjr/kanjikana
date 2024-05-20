@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jtclarkjr/kanjikana"
+	kanjikana "github.com/jtclarkjr/kanjikana"
 )
 
 func main() {
