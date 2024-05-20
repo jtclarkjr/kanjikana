@@ -1,4 +1,4 @@
-module github.com/jtclarkjr/kanakanjitest
+module github.com/jtclarkjr/kanakanji/example
 
 go 1.22.2
 

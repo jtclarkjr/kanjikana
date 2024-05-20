@@ -1,4 +1,4 @@
-package kanji2kana
+package kanjikana
 
 import (
 	"github.com/gojp/kana"
