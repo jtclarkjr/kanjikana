@@ -4,6 +4,16 @@ Japanese Kanji to kana or romaji
 
 ## Usage
 
+Methods
+
+```
+ConvertKanjiToKana
+ConvertKanaToRomaji
+ConvertKanjiToRomaji
+```
+
+Code example
+
 ```
 package main
 
