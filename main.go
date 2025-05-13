@@ -1,6 +1,8 @@
 package kanjikana
 
 import (
+	"strings"
+
 	"github.com/gojp/kana"
 	"github.com/ikawaha/kagome-dict/ipa"
 	"github.com/ikawaha/kagome/v2/tokenizer"
@@ -27,9 +29,37 @@ func ConvertKanjiToKana(input string) (string, error) {
 	return result, nil
 }
 
-// ConvertKanaToRomaji converts Kana to Romaji
+// ConvertKanaToRomaji converts Kana to Romaji and applies custom rules and punctuation replacements
 func ConvertKanaToRomaji(input string) string {
-	return kana.KanaToRomaji(input)
+	romaji := kana.KanaToRomaji(input)
+	replacements := map[string]string{
+		"ou": "o",
+		"uu": "u",
+		"、":  ",",
+		"。":  ".",
+		"「":  "\"",
+		"」":  "\"",
+		"『":  "\"",
+		"』":  "\"",
+		"・":  "-",
+		"？":  "?",
+		"！":  "!",
+		"：":  ":",
+		"；":  ";",
+		"（":  "(",
+		"）":  ")",
+		"［":  "[",
+		"］":  "]",
+		"｛":  "{",
+		"｝":  "}",
+		"〜":  "~",
+		"ー":  "-",
+		"　":  " ", // full-width space to half-width
+	}
+	for old, new := range replacements {
+		romaji = strings.ReplaceAll(romaji, old, new)
+	}
+	return romaji
 }
 
 // ConvertKanjiToRomaji converts Kanji text directly to Romaji
