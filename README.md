@@ -26,11 +26,11 @@ import (
 
 func main() {
 	kanjiInput := "漢字をカナに変換します。"
-	romaji, err := kanjikana.ConvertKanjiToRomaji(kanjiInput)
+	romaji, err := kanjikana.ConvertKanjiToRomajiWithSpaces(kanjiInput)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("Romaji:", romaji)
-	// Romaji: kanjiwokananihenkanshimasu。
+	// Romaji: kanji wo kana ni henkanshimasu.
 }
 ```

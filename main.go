@@ -29,9 +29,7 @@ func ConvertKanjiToKana(input string) (string, error) {
 	return result, nil
 }
 
-// ConvertKanaToRomaji converts Kana to Romaji and applies custom rules and punctuation replacements
-func ConvertKanaToRomaji(input string) string {
-	romaji := kana.KanaToRomaji(input)
+func applyRomajiReplacements(input string) string {
 	replacements := map[string]string{
 		"ou": "o",
 		"uu": "u",
@@ -57,9 +55,14 @@ func ConvertKanaToRomaji(input string) string {
 		"　":  " ", // full-width space to half-width
 	}
 	for old, new := range replacements {
-		romaji = strings.ReplaceAll(romaji, old, new)
+		input = strings.ReplaceAll(input, old, new)
 	}
-	return romaji
+	return input
+}
+
+func ConvertKanaToRomaji(input string) string {
+	romaji := kana.KanaToRomaji(input)
+	return applyRomajiReplacements(romaji)
 }
 
 // ConvertKanjiToRomaji converts Kanji text directly to Romaji
@@ -70,4 +73,28 @@ func ConvertKanjiToRomaji(input string) (string, error) {
 	}
 	romaji := ConvertKanaToRomaji(kana)
 	return romaji, nil
+}
+
+// ConvertKanjiToRomajiWithSpaces converts Kanji text to Romaji with spaces between words
+func ConvertKanjiToRomajiWithSpaces(input string) (string, error) {
+	t, err := tokenizer.New(ipa.Dict(), tokenizer.OmitBosEos())
+	if err != nil {
+		return "", err
+	}
+	tokens := t.Tokenize(input)
+
+	var romajiWords []string
+	for _, token := range tokens {
+		features := token.Features()
+		var kanaStr string
+		if len(features) > 7 {
+			kanaStr = features[7]
+		} else {
+			kanaStr = token.Surface
+		}
+		romaji := kana.KanaToRomaji(kanaStr)
+		romaji = applyRomajiReplacements(romaji)
+		romajiWords = append(romajiWords, romaji)
+	}
+	return strings.Join(romajiWords, " "), nil
 }
